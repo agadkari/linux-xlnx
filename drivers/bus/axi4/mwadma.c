@@ -1496,13 +1496,13 @@ static int mwadma_channel_probe(struct mwadma_dev *mwdev)
     static char id = 0;
     dma_cap_mask_t mask;
     u32 match_rx, match_tx;
-    
-    match_tx  = (DMA_MEM_TO_DEV & 0xFF) | XILINX_DMA_IP_DMA;
-    match_rx  = (DMA_DEV_TO_MEM & 0xFF) | XILINX_DMA_IP_DMA;
    
+
+    match_tx  = (DMA_MEM_TO_DEV & 0xFF) | XILINX_DMA_IP_DMA | (id << XILINX_DMA_DEVICE_ID_SHIFT); 
+    match_rx  = (DMA_DEV_TO_MEM & 0xFF) | XILINX_DMA_IP_DMA | (id << XILINX_DMA_DEVICE_ID_SHIFT); 
+    
     dma_cap_zero(mask);
     dma_cap_set(DMA_SLAVE | DMA_PRIVATE, mask);
-    dma_cap_set(DMA_CYCLIC, mask);
 
     dev_info(&IP2DEV(mwdev), "probing channel\n");
     if (id > 1) {
